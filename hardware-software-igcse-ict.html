@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hardware &amp; Software — IGCSE ICT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#101613;
+    --bg-raised:#161e1a;
+    --trace:#496354;
+    --trace-dim:#2b3730;
+    --paper:#e9e4d6;
+    --paper-dim:#a9a294;
+    --copper:#c98a4b;
+    --copper-bright:#e0a566;
+    --gold:#d7b872;
+    --brick:#c15c4f;
+    --sage:#7fa68a;
+    --mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+    --serif: 'Source Serif 4', Georgia, serif;
+    --radius: 3px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    background-image:
+      linear-gradient(var(--trace-dim) 1px, transparent 1px),
+      linear-gradient(90deg, var(--trace-dim) 1px, transparent 1px);
+    background-size: 42px 42px;
+    background-position: -1px -1px;
+    color:var(--paper);
+    font-family: var(--serif);
+    font-size:17px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--copper-bright);}
+  ::selection{background:var(--copper); color:#101613;}
+
+  .wrap{
+    max-width:720px;
+    margin:0 auto;
+    padding: 0 24px 120px;
+  }
+
+  /* Header / hero */
+  header.hero{
+    padding:56px 24px 40px;
+    max-width:720px;
+    margin:0 auto;
+    border-bottom:1px solid var(--trace);
+  }
+  .kicker{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--sage);
+    letter-spacing:.02em;
+    margin:0 0 10px;
+  }
+  h1.title{
+    font-family:var(--mono);
+    font-weight:700;
+    font-size:clamp(28px,5vw,42px);
+    line-height:1.15;
+    margin:0 0 14px;
+    color:var(--paper);
+  }
+  .hero p{
+    color:var(--paper-dim);
+    max-width:56ch;
+    margin:0;
+    font-size:18px;
+  }
+  .hero-meta{
+    display:flex;
+    gap:18px;
+    margin-top:22px;
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--copper-bright);
+    flex-wrap:wrap;
+  }
+  .hero-meta span{
+    border:1px solid var(--trace);
+    padding:4px 10px;
+    border-radius:var(--radius);
+  }
+
+  /* Nav */
+  nav.toc{
+    max-width:720px;
+    margin:0 auto;
+    padding:18px 24px;
+    display:flex;
+    gap:8px 18px;
+    flex-wrap:wrap;
+    font-family:var(--mono);
+    font-size:13px;
+    border-bottom:1px solid var(--trace);
+    position:sticky;
+    top:0;
+    background:rgba(16,22,19,.94);
+    backdrop-filter: blur(4px);
+    z-index:20;
+  }
+  nav.toc a{
+    color:var(--paper-dim);
+    text-decoration:none;
+    padding:4px 0;
+    border-bottom:1px solid transparent;
+  }
+  nav.toc a:hover, nav.toc a:focus-visible{
+    color:var(--copper-bright);
+    border-bottom-color:var(--copper);
+  }
+
+  section{
+    padding:52px 0 8px;
+    border-bottom:1px solid var(--trace-dim);
+  }
+  section:last-of-type{border-bottom:none;}
+
+  h2.section-title{
+    font-family:var(--mono);
+    font-size:23px;
+    color:var(--copper-bright);
+    margin:0 0 6px;
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+  }
+  h2.section-title .tag{
+    font-size:12px;
+    color:var(--sage);
+    border:1px solid var(--trace);
+    padding:2px 7px;
+    border-radius:var(--radius);
+  }
+  h3{
+    font-family:var(--mono);
+    font-size:16px;
+    color:var(--gold);
+    margin:28px 0 8px;
+    font-weight:500;
+  }
+  p{margin:10px 0;}
+  ul{padding-left:22px; margin:10px 0;}
+  li{margin:4px 0;}
+  strong{color:var(--paper); font-weight:600;}
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:16px 0 8px;
+    font-size:15.5px;
+  }
+  th,td{
+    border:1px solid var(--trace);
+    padding:9px 11px;
+    text-align:left;
+    vertical-align:top;
+  }
+  th{
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--sage);
+    font-weight:500;
+    background:rgba(127,166,138,0.06);
+  }
+  .table-scroll{overflow-x:auto;}
+
+  /* generic component block, left trace border instead of card+shadow */
+  .block{
+    border-left:2px solid var(--trace);
+    padding-left:18px;
+    margin:20px 0;
+  }
+
+  /* Interactive task frame */
+  .task{
+    margin:34px 0;
+    border:1px solid var(--trace);
+    border-radius:var(--radius);
+    background: var(--bg-raised);
+    padding:20px 20px 22px;
+  }
+  .task-label{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--copper-bright);
+    text-transform:none;
+    margin:0 0 10px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .task-label .pts{color:var(--sage);}
+  .task h4{
+    margin:0 0 12px;
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:17px;
+    color:var(--paper);
+  }
+  .task .sub-q{margin:18px 0;}
+  .task .sub-q:first-child{margin-top:0;}
+  .sub-q label{
+    display:block;
+    font-family:var(--serif);
+    font-size:16px;
+    margin-bottom:8px;
+    color:var(--paper);
+  }
+  textarea{
+    width:100%;
+    min-height:52px;
+    background:#0c110e;
+    border:1px solid var(--trace);
+    border-radius:var(--radius);
+    color:var(--paper);
+    font-family:var(--serif);
+    font-size:15.5px;
+    padding:10px 12px;
+    resize:vertical;
+  }
+  textarea:focus, button:focus-visible, .opt:focus-visible{
+    outline:2px solid var(--copper-bright);
+    outline-offset:1px;
+  }
+  .row{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    margin-top:8px;
+    flex-wrap:wrap;
+  }
+  button{
+    font-family:var(--mono);
+    font-size:13px;
+    background:var(--copper);
+    color:#181008;
+    border:none;
+    padding:9px 15px;
+    border-radius:var(--radius);
+    cursor:pointer;
+    font-weight:500;
+  }
+  button:hover{background:var(--copper-bright);}
+  button.ghost{
+    background:transparent;
+    border:1px solid var(--trace);
+    color:var(--paper-dim);
+  }
+  button.ghost:hover{color:var(--paper); border-color:var(--paper-dim);}
+  button:disabled{opacity:.5; cursor:default;}
+
+  .error-msg{
+    color:var(--brick);
+    font-family:var(--mono);
+    font-size:13px;
+    margin-top:8px;
+    display:none;
+  }
+  .error-msg.show{display:block;}
+
+  .answer-reveal{
+    display:none;
+    margin-top:12px;
+    padding:12px 14px;
+    background:rgba(127,166,138,0.08);
+    border-left:2px solid var(--sage);
+    border-radius:0 var(--radius) var(--radius) 0;
+  }
+  .answer-reveal.show{display:block;}
+  .answer-reveal .lbl{
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--sage);
+    display:block;
+    margin-bottom:5px;
+  }
+  .self-mark{
+    display:none;
+    align-items:center;
+    gap:8px;
+    margin-top:12px;
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--paper-dim);
+  }
+  .self-mark.show{display:flex;}
+  .self-mark input[type=checkbox]{
+    width:17px; height:17px;
+    accent-color: var(--gold);
+    cursor:pointer;
+  }
+  .self-mark label{cursor:pointer;}
+
+  /* MCQ */
+  .mcq{margin:22px 0;}
+  .mcq:first-of-type{margin-top:0;}
+  .mcq p.q{
+    font-family:var(--serif);
+    font-size:16px;
+    color:var(--paper);
+    margin:0 0 10px;
+  }
+  .opts{display:flex; flex-direction:column; gap:8px;}
+  .opt{
+    text-align:left;
+    background:#0c110e;
+    border:1px solid var(--trace);
+    color:var(--paper);
+    padding:10px 13px;
+    border-radius:var(--radius);
+    font-family:var(--serif);
+    font-size:15.5px;
+    cursor:pointer;
+  }
+  .opt:hover:not(:disabled){border-color:var(--copper);}
+  .opt.correct{border-color:var(--sage); background:rgba(127,166,138,0.14); color:var(--paper);}
+  .opt.incorrect{border-color:var(--brick); background:rgba(193,92,79,0.14);}
+  .opt:disabled{cursor:default;}
+  .mcq-feedback{
+    font-family:var(--mono);
+    font-size:13px;
+    margin-top:8px;
+    min-height:1.2em;
+  }
+  .mcq-feedback.ok{color:var(--sage);}
+  .mcq-feedback.bad{color:var(--brick);}
+
+  /* classify task */
+  .classify-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    padding:10px 0;
+    border-bottom:1px solid var(--trace-dim);
+    flex-wrap:wrap;
+  }
+  .classify-item:last-child{border-bottom:none;}
+  .classify-item .term{font-size:16px;}
+  .classify-item .choices{display:flex; gap:8px;}
+  .classify-item .choices button{
+    background:transparent;
+    border:1px solid var(--trace);
+    color:var(--paper-dim);
+    font-size:12.5px;
+    padding:6px 11px;
+  }
+  .classify-item .choices button.correct{background:rgba(127,166,138,0.16); border-color:var(--sage); color:var(--paper);}
+  .classify-item .choices button.incorrect{background:rgba(193,92,79,0.16); border-color:var(--brick); color:var(--paper);}
+
+  /* signal toggle demo */
+  .signal-demo{margin-top:16px;}
+  .signal-demo svg{width:100%; height:auto; display:block; background:#0c110e; border:1px solid var(--trace); border-radius:var(--radius);}
+  .signal-caption{
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--paper-dim);
+    margin-top:8px;
+    text-align:center;
+  }
+
+  /* score badge */
+  #score-badge{
+    position:fixed;
+    top:14px;
+    right:14px;
+    z-index:50;
+    font-family:var(--mono);
+    font-size:13px;
+    background:var(--bg-raised);
+    border:1px solid var(--copper);
+    color:var(--copper-bright);
+    padding:8px 13px;
+    border-radius:var(--radius);
+    box-shadow:0 2px 10px rgba(0,0,0,.35);
+  }
+  #score-badge .n{color:var(--gold); font-weight:700;}
+
+  footer{
+    max-width:720px;
+    margin:0 auto;
+    padding:40px 24px 0;
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--paper-dim);
+  }
+
+  @media (max-width:600px){
+    body{font-size:16px;}
+    .hero{padding:44px 20px 32px;}
+    #score-badge{top:auto; bottom:14px; right:14px;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<div id="score-badge">Score: <span class="n" id="score-val">0</span> / <span id="score-max">17</span></div>
+
+<header class="hero">
+  <p class="kicker">Cambridge IGCSE ICT · Theory 1</p>
+  <h1 class="title">Hardware &amp; Software</h1>
+  <p>Every computer system is built from two things working together: the physical parts you can touch, and the instructions that tell those parts what to do. This page walks through both, plus how computers turn the analogue world into the 1s and 0s they actually understand.</p>
+
+</header>
+
+<nav class="toc">
+  <a href="#hardware">Hardware</a>
+  <a href="#software">Software</a>
+  <a href="#os">Operating systems</a>
+  <a href="#data">Analogue &amp; digital</a>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ HARDWARE ============ -->
+<section id="hardware">
+  <h2 class="section-title">Hardware <span class="tag">the physical parts</span></h2>
+  <p><strong>Hardware</strong> means the physical components of a computer system — anything you could physically pick up or point to. Hardware falls into three groups:</p>
+
+  <h3>Internal components</h3>
+  <div class="block">
+    <ul>
+      <li><strong>CPU (Central Processing Unit)</strong> — the "brain" of the computer, made up of processors that carry out instructions</li>
+      <li><strong>Motherboard</strong> — the circuit board that connects every important component together so they can communicate</li>
+    </ul>
+  </div>
+
+  <h3>Internal memory</h3>
+  <div class="block">
+    <ul>
+      <li><strong>RAM (Random Access Memory)</strong> — fast, working memory. Its contents are lost when the power is switched off</li>
+      <li><strong>ROM (Read-Only Memory)</strong> — holds the instructions the computer needs to start up, and keeps them even without power</li>
+    </ul>
+  </div>
+
+  <h3>Hardware components</h3>
+  <div class="block">
+    <ul>
+      <li><strong>Graphics card (GPU)</strong> — processes images and video</li>
+      <li><strong>Sound card</strong> — processes audio</li>
+      <li><strong>Network Interface Card (NIC)</strong> — provides a wired connection to a network</li>
+      <li><strong>Camera</strong> — captures images or video</li>
+      <li><strong>Storage devices</strong> — store data permanently, e.g. a hard drive or USB stick</li>
+      <li><strong>Input devices</strong> — let the user put data in, e.g. mouse and keyboard</li>
+      <li><strong>Output devices</strong> — show the results of processing, e.g. a monitor</li>
+    </ul>
+  </div>
+
+  <div class="task" data-task="open" data-points="4">
+    <p class="task-label"><span>Task 1 · Worked example</span><span class="pts">4 points</span></p>
+    <h4>A computer contains internal hardware. For each description, write down the most appropriate item of hardware.</h4>
+
+    <div class="sub-q" data-answer="Processor / CPU">
+      <label>a) This handles all the system instructions.</label>
+      <textarea placeholder="Type your answer here…"></textarea>
+      <div class="row">
+        <button class="check-btn">Check answer</button>
+      </div>
+      <p class="error-msg">Try writing your own answer first — that's how you actually learn it. Don't skip straight to the answer!</p>
+      <div class="answer-reveal"><span class="lbl">Answer</span>Processor / CPU</div>
+      <div class="self-mark">
+        <input type="checkbox" id="sm-hw-a">
+        <label for="sm-hw-a">My answer was close enough — award myself the point</label>
+      </div>
+    </div>
+
+    <div class="sub-q" data-answer="Motherboard">
+      <label>b) A printed circuit board that contains the main components of the computer.</label>
+      <textarea placeholder="Type your answer here…"></textarea>
+      <div class="row">
+        <button class="check-btn">Check answer</button>
+      </div>
+      <p class="error-msg">Try writing your own answer first — that's how you actually learn it. Don't skip straight to the answer!</p>
+      <div class="answer-reveal"><span class="lbl">Answer</span>Motherboard</div>
+      <div class="self-mark">
+        <input type="checkbox" id="sm-hw-b">
+        <label for="sm-hw-b">My answer was close enough — award myself the point</label>
+      </div>
+    </div>
+
+    <div class="sub-q" data-answer="Sound card">
+      <label>c) This generates output for the speaker.</label>
+      <textarea placeholder="Type your answer here…"></textarea>
+      <div class="row">
+        <button class="check-btn">Check answer</button>
+      </div>
+      <p class="error-msg">Try writing your own answer first — that's how you actually learn it. Don't skip straight to the answer!</p>
+      <div class="answer-reveal"><span class="lbl">Answer</span>Sound card</div>
+      <div class="self-mark">
+        <input type="checkbox" id="sm-hw-c">
+        <label for="sm-hw-c">My answer was close enough — award myself the point</label>
+      </div>
+    </div>
+
+    <div class="sub-q" data-answer="RAM / Random Access Memory">
+      <label>d) A type of memory where data is lost when the computer is switched off.</label>
+      <textarea placeholder="Type your answer here…"></textarea>
+      <div class="row">
+        <button class="check-btn">Check answer</button>
+      </div>
+      <p class="error-msg">Try writing your own answer first — that's how you actually learn it. Don't skip straight to the answer!</p>
+      <div class="answer-reveal"><span class="lbl">Answer</span>RAM / Random Access Memory</div>
+      <div class="self-mark">
+        <input type="checkbox" id="sm-hw-d">
+        <label for="sm-hw-d">My answer was close enough — award myself the point</label>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SOFTWARE ============ -->
+<section id="software">
+  <h2 class="section-title">Software</h2>
+  <p><strong>Software</strong> is the set of programs that control the hardware. It lives on the computer system but can't be physically touched. Software splits into two categories: <strong>application software</strong> and <strong>system software</strong>.</p>
+
+  <h3>Application software</h3>
+  <div class="block">
+    <p>Application software (often just called "apps") is <strong>chosen by the user</strong> to carry out a specific task. It's installed on top of system software. Common categories:</p>
+    <ul>
+      <li><strong>Word processing</strong> — creating and editing text documents</li>
+      <li><strong>Spreadsheet</strong> — organising and analysing data in a grid</li>
+      <li><strong>Database management</strong> — storing, retrieving and managing data</li>
+      <li><strong>Control / measurement</strong> — using sensors to measure and control a system</li>
+      <li><strong>Video, graphics and audio editing</strong> — creating and modifying media files</li>
+      <li><strong>Computer-Aided Design (CAD)</strong> — designing and modelling objects in 2D or 3D</li>
+    </ul>
+  </div>
+
+  <h3>System software</h3>
+  <div class="block">
+    <p>System software is <strong>essential for the computer to run at all</strong> — without it, there's no starting point for giving the computer instructions. It gives the user a platform to run applications. Key examples:</p>
+    <ul>
+      <li><strong>Compilers</strong> — translate high-level programming languages into machine code</li>
+      <li><strong>Linkers</strong> — combine object files into a single executable program</li>
+      <li><strong>Device drivers</strong> — control hardware components and peripherals</li>
+      <li><strong>Operating systems</strong> — manage the computer's resources and provide a user interface</li>
+      <li><strong>Utilities</strong> — tools for maintaining and optimising performance</li>
+    </ul>
+    <p style="color:var(--paper-dim); font-size:14.5px;">Common mix-up: control software sounds technical, but it's actually <strong>application</strong> software, not system software — it's chosen by a user for a specific job.</p>
+  </div>
+
+  <div class="task" data-task="classify" data-points="4">
+    <p class="task-label"><span>Task 2 · Sort it</span><span class="pts">4 points</span></p>
+    <h4>Click whether each of these is application software or system software.</h4>
+    <div class="classify-list">
+      <div class="classify-item" data-answer="app">
+        <span class="term">Control software</span>
+        <span class="choices">
+          <button data-choice="app">Application</button>
+          <button data-choice="sys">System</button>
+        </span>
+      </div>
+      <div class="classify-item" data-answer="sys">
+        <span class="term">Compiler</span>
+        <span class="choices">
+          <button data-choice="app">Application</button>
+          <button data-choice="sys">System</button>
+        </span>
+      </div>
+      <div class="classify-item" data-answer="app">
+        <span class="term">Word processor</span>
+        <span class="choices">
+          <button data-choice="app">Application</button>
+          <button data-choice="sys">System</button>
+        </span>
+      </div>
+      <div class="classify-item" data-answer="sys">
+        <span class="term">Device driver</span>
+        <span class="choices">
+          <button data-choice="app">Application</button>
+          <button data-choice="sys">System</button>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="task" data-task="mcq" data-points="3">
+    <p class="task-label"><span>Task 3 · Quick check</span><span class="pts">3 points</span></p>
+
+    <div class="mcq" data-answer="1">
+      <p class="q">1. Which of these is the best definition of software?</p>
+      <div class="opts">
+        <button class="opt" data-idx="0">A physical part of the computer you can hold</button>
+        <button class="opt" data-idx="1">A set of programs that control the hardware</button>
+        <button class="opt" data-idx="2">A type of internal memory</button>
+      </div>
+      <p class="mcq-feedback"></p>
+    </div>
+
+    <div class="mcq" data-answer="2">
+      <p class="q">2. A student wants to edit a video for a school project. Which category of application software should they use?</p>
+      <div class="opts">
+        <button class="opt" data-idx="0">Database management</button>
+        <button class="opt" data-idx="1">Control / measurement</button>
+        <button class="opt" data-idx="2">Video editing</button>
+      </div>
+      <p class="mcq-feedback"></p>
+    </div>
+
+    <div class="mcq" data-answer="0">
+      <p class="q">3. Why is system software described as "essential"?</p>
+      <div class="opts">
+        <button class="opt" data-idx="0">Without it, there's no starting point for giving the computer instructions</button>
+        <button class="opt" data-idx="1">It's the most expensive software to buy</button>
+        <button class="opt" data-idx="2">It's chosen by the user for a specific task</button>
+      </div>
+      <p class="mcq-feedback"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ OPERATING SYSTEMS ============ -->
+<section id="os">
+  <h2 class="section-title">Operating systems <span class="tag">and user interfaces</span></h2>
+  <p>An <strong>operating system (OS)</strong> is software that provides an interface between the user and the hardware. It makes a computer usable by:</p>
+  <div class="block">
+    <ul>
+      <li>Controlling input/output devices</li>
+      <li>Overseeing the loading, running and storage of application software</li>
+      <li>Dealing with errors</li>
+      <li>Maintaining security</li>
+      <li>Keeping a log of events</li>
+    </ul>
+  </div>
+
+  <h3>User interfaces</h3>
+  <p>A user interface is how the user interacts with the operating system. There are four main types:</p>
+
+  <div class="table-scroll">
+    <table>
+      <tr><th>Interface</th><th>How users interact</th><th>Example</th></tr>
+      <tr><td>Command Line (CLI)</td><td>Typed text-based commands</td><td>MS-DOS, Raspbian terminal</td></tr>
+      <tr><td>Graphical (GUI)</td><td>Visual elements — windows, icons, menus, pointers</td><td>Windows, macOS</td></tr>
+      <tr><td>Dialogue-based</td><td>Spoken word</td><td>Amazon Alexa, Siri</td></tr>
+      <tr><td>Gesture-based</td><td>Human movement — hands, fingers, head, feet</td><td>Smartphones (swipe, pinch, zoom)</td></tr>
+    </table>
+  </div>
+
+  <p style="color:var(--paper-dim); font-size:14.5px;">CLI trades ease of use for control: it uses fewer resources and is great for automation, but you need to remember exact commands. GUI is intuitive and visual, but uses more resources and can feel slow for repetitive tasks.</p>
+
+  <div class="task" data-task="mcq" data-points="3">
+    <p class="task-label"><span>Task 4 · Quick check</span><span class="pts">3 points</span></p>
+
+    <div class="mcq" data-answer="1">
+      <p class="q">1. A system administrator needs to automate the same task on 500 servers overnight. Which interface is best suited to this?</p>
+      <div class="opts">
+        <button class="opt" data-idx="0">Gesture-based</button>
+        <button class="opt" data-idx="1">Command Line (CLI)</button>
+        <button class="opt" data-idx="2">Dialogue-based</button>
+      </div>
+      <p class="mcq-feedback"></p>
+    </div>
+
+    <div class="mcq" data-answer="0">
+      <p class="q">2. What is a key disadvantage of a GUI compared to a CLI?</p>
+      <div class="opts">
+        <button class="opt" data-idx="0">It uses more system resources</button>
+        <button class="opt" data-idx="1">It requires the user to remember commands</button>
+        <button class="opt" data-idx="2">It cannot be used with a mouse</button>
+      </div>
+      <p class="mcq-feedback"></p>
+    </div>
+
+    <div class="mcq" data-answer="2">
+      <p class="q">3. A smart speaker that responds when you say "turn off the lights" is an example of which interface?</p>
+      <div class="opts">
+        <button class="opt" data-idx="0">Command Line</button>
+        <button class="opt" data-idx="1">Graphical</button>
+        <button class="opt" data-idx="2">Dialogue-based</button>
+      </div>
+      <p class="mcq-feedback"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ANALOGUE & DIGITAL ============ -->
+<section id="data">
+  <h2 class="section-title">Analogue &amp; digital data</h2>
+
+  <p><strong>Analogue data</strong> is continuous — it changes gradually and smoothly, and it's produced by non-digital devices. Sound waves and raw sensor readings are analogue. <strong>Digital data</strong> is represented in binary (1s and 0s), and it's what computers actually create and store — documents, software, files.</p>
+
+  <div class="table-scroll">
+    <table>
+      <tr><th>Analogue</th><th>Digital</th></tr>
+      <tr><td>Values change smoothly and gradually</td><td>Values are limited to 1s and 0s</td></tr>
+      <tr><td>Quality can be lost during storage/transmission</td><td>Quality is maintained during storage/transmission</td></tr>
+      <tr><td>Must be converted to digital to be used by digital devices</td><td>Must be converted to analogue to be used by analogue devices</td></tr>
+      <tr><td>—</td><td>Easily manipulated</td></tr>
+    </table>
+  </div>
+
+  <div class="signal-demo">
+    <svg id="signal-svg" viewBox="0 0 600 160" xmlns="http://www.w3.org/2000/svg">
+      <polyline id="signal-line" fill="none" stroke="#e0a566" stroke-width="2.5" points=""/>
+    </svg>
+    <p class="signal-caption" id="signal-caption">Analogue signal — a smooth, continuous wave</p>
+    <div class="row" style="justify-content:center;">
+      <button class="ghost" id="toggle-signal">Convert to digital →</button>
+    </div>
+  </div>
+
+  <h3>Analogue-to-digital conversion (ADC)</h3>
+  <div class="block">
+    <p>Sensors produce analogue output, but computers can only process digital data — so it has to be converted. ADC works by <strong>taking samples</strong> (measurements) of the analogue signal at regular intervals and converting each one to a binary code. A higher sample rate and more binary digits give a more accurate result, but take up more storage space.</p>
+  </div>
+
+  <h3>Digital-to-analogue conversion (DAC)</h3>
+  <div class="block">
+    <p>To control real-world analogue devices (like a motor or a speaker), digital data has to be converted back into a continuous analogue signal. The quality of that signal depends on the original sample rate and number of bits used.</p>
+  </div>
+
+  <div class="task" data-task="open" data-points="2">
+    <p class="task-label"><span>Task 5 · Worked example</span><span class="pts">2 points</span></p>
+    <h4>A greenhouse is used to grow plants and is computer controlled. Give two reasons why data from the sensors needs to be converted for use by a computer.</h4>
+    <div class="sub-q" data-answer="Two of: so the data from the sensor can be understood by the computer / the output from a sensor is analogue / the input to the computer is digital.">
+      <textarea placeholder="Type your two reasons here…"></textarea>
+      <div class="row">
+        <button class="check-btn">Check answer</button>
+      </div>
+      <p class="error-msg">Try writing your own answer first — that's how you actually learn it. Don't skip straight to the answer!</p>
+      <div class="answer-reveal"><span class="lbl">Answer (any two of)</span>
+        So the data from the sensor can be understood by the computer · the output from a sensor is analogue · the input to the computer is digital
+      </div>
+      <div class="self-mark">
+        <input type="checkbox" id="sm-adc-a" data-points="2">
+        <label for="sm-adc-a">My answer covered two valid reasons — award myself both points</label>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  Cambridge IGCSE ICT · Hardware &amp; Software
+</footer>
+
+<script>
+(function(){
+  const scoreValEl = document.getElementById('score-val');
+  let score = 0;
+  function addScore(n){
+    score += n;
+    if(score < 0) score = 0;
+    scoreValEl.textContent = score;
+  }
+
+  // ---- Open-response tasks ----
+  document.querySelectorAll('.sub-q').forEach(function(sq){
+    const btn = sq.querySelector('.check-btn');
+    const ta = sq.querySelector('textarea');
+    const err = sq.querySelector('.error-msg');
+    const reveal = sq.querySelector('.answer-reveal');
+    const mark = sq.querySelector('.self-mark');
+    const checkbox = mark ? mark.querySelector('input[type=checkbox]') : null;
+
+    btn.addEventListener('click', function(){
+      if(!ta.value.trim()){
+        err.classList.add('show');
+        reveal.classList.remove('show');
+        mark.classList.remove('show');
+        ta.focus();
+        return;
+      }
+      err.classList.remove('show');
+      reveal.classList.add('show');
+      mark.classList.add('show');
+    });
+
+    if(checkbox){
+      checkbox.addEventListener('change', function(){
+        const pts = parseInt(checkbox.dataset.points || '1', 10);
+        addScore(checkbox.checked ? pts : -pts);
+      });
+    }
+  });
+
+  // ---- Classify (sort) tasks ----
+  document.querySelectorAll('.classify-item').forEach(function(item){
+    const answer = item.dataset.answer;
+    const buttons = item.querySelectorAll('.choices button');
+    buttons.forEach(function(b){
+      b.addEventListener('click', function(){
+        buttons.forEach(function(other){ other.disabled = true; });
+        if(b.dataset.choice === answer){
+          b.classList.add('correct');
+          addScore(1);
+        } else {
+          b.classList.add('incorrect');
+          buttons.forEach(function(other){
+            if(other.dataset.choice === answer) other.classList.add('correct');
+          });
+        }
+      });
+    });
+  });
+
+  // ---- MCQ tasks ----
+  document.querySelectorAll('.mcq').forEach(function(mcq){
+    const correctIdx = mcq.dataset.answer;
+    const opts = mcq.querySelectorAll('.opt');
+    const feedback = mcq.querySelector('.mcq-feedback');
+    opts.forEach(function(opt){
+      opt.addEventListener('click', function(){
+        opts.forEach(function(o){ o.disabled = true; });
+        if(opt.dataset.idx === correctIdx){
+          opt.classList.add('correct');
+          feedback.textContent = 'Correct.';
+          feedback.className = 'mcq-feedback ok';
+          addScore(1);
+        } else {
+          opt.classList.add('incorrect');
+          opts.forEach(function(o){
+            if(o.dataset.idx === correctIdx) o.classList.add('correct');
+          });
+          feedback.textContent = 'Not quite — the correct answer is highlighted above.';
+          feedback.className = 'mcq-feedback bad';
+        }
+      });
+    });
+  });
+
+  // ---- Signal toggle demo (bonus, non-scored) ----
+  const line = document.getElementById('signal-line');
+  const caption = document.getElementById('signal-caption');
+  const toggleBtn = document.getElementById('toggle-signal');
+  let isDigital = false;
+
+  function analoguePoints(){
+    const pts = [];
+    for(let x = 0; x <= 600; x += 4){
+      const y = 80 + 55 * Math.sin(x / 38);
+      pts.push(x + ',' + y.toFixed(1));
+    }
+    return pts.join(' ');
+  }
+  function digitalPoints(){
+    const pts = [];
+    const step = 30;
+    for(let x = 0; x <= 600; x += step){
+      const y = 80 + 55 * Math.sin(x / 38);
+      const snapped = Math.round(y / 27.5) * 27.5;
+      pts.push(x + ',' + snapped.toFixed(1));
+      pts.push((x + step) + ',' + snapped.toFixed(1));
+    }
+    return pts.join(' ');
+  }
+  line.setAttribute('points', analoguePoints());
+
+  toggleBtn.addEventListener('click', function(){
+    isDigital = !isDigital;
+    line.setAttribute('points', isDigital ? digitalPoints() : analoguePoints());
+    line.setAttribute('stroke', isDigital ? '#7fa68a' : '#e0a566');
+    caption.textContent = isDigital
+      ? 'Digital signal — sampled and rounded into discrete steps (1s and 0s)'
+      : 'Analogue signal — a smooth, continuous wave';
+    toggleBtn.textContent = isDigital ? 'Convert back to analogue →' : 'Convert to digital →';
+  });
+})();
+</script>
+</body>
+</html>
